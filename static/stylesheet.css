@@ -15,8 +15,8 @@ body{
 }
 .form{
 	background-color: #F9D494;
-	width:600px;
-	height: 400px;
+	width:500px;
+	height: 500px;
 	margin-bottom: 200px;
 	margin-right: 700px;
 	border-radius:5px;
@@ -27,12 +27,26 @@ body{
 }
 .form-group,.form-check, .btn {
 	width:300px;
-	margin-left: 150px;
+	margin-left: 100px;
 }
 form{
 	padding-top:50px;
 }
 .btn{
 	margin-top: 40px;
+
+}
+.menu{
+	font-size: 20px;
+	margin-top: 20px;
+	margin-left: 180px;
+
+}
+.menu a{
+	color:black;
+}
+.menu a:hover{
+	text-decoration: none;
+	color:blue;
 
 }

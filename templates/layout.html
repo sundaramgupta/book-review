@@ -8,10 +8,6 @@
     </head>
         <header>
             <div class="container">
-                <div class="menu">
-                    <a href="{{ url_for('registration') }}">Register</a>
-                    <a href="{{ url_for('login') }}">Login</a>
-                </div>
                 <div class="form">
                     <form>
                       <div class="form-group">
@@ -29,6 +25,10 @@
                       </div>
                       <button type="submit" class="btn btn-primary">Register</button>
                     </form>
+                    <div class="menu">
+                    <a href="{{ url_for('registration') }}">Register </a><span>|</span>
+                    <a href="{{ url_for('login') }}">Login</a>
+                </div>
                 </div>                
             </div>
         </header>
