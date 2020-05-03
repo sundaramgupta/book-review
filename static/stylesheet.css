@@ -1,24 +1,33 @@
-.container{
-	width:50%;
-	height:500px;
-	margin-left: 400px;
-	background-color: #F2AA4CFF;
-	position: fixed;
-	font-family: 'Baskervville';
-	margin-top: 100px;
-
-
+body{
+	background-image: url('back.jpg');
 }
 
+.container{
+	width:100%;
+	height:500px;
+	font-family: 'Baskervville';
+	margin-top: 10%;
 
-.container menu{
-	float:left;
-	padding: 0 0px 0 0px;
-	box-shadow: 10px 10px;
-	font-size: 50px;
-	color: black;
-} 
+	
+}
+.form{
+	background-color: #F08080;
+	width:700px;
+	height: 400px;
+	margin-left: 200px;
+	margin-right: 100px
+	border-radius:100px;
+	
 
+}
+.form-group,.form-check, .btn {
+	width:300px;
+	margin-left: 200px;
+}
 form{
-	margin: 100px;
+	padding-top:50px;
+}
+.btn{
+	margin-top: 40px;
+
 }
