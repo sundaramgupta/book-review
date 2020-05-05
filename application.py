@@ -21,8 +21,68 @@ engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
 
-@app.route("/", methods=["GET", "POST"])
+
+@app.route("/")
+@login_required
+
+#homepage
+def index():
+	return render_template("index.html")
+
+#login page
+@app.route("/login", methods=["GET", "POST"])
+def login():
+
+	session.clear()
+	username = request.form.get("username")
+
+	#if the method is post (by submitting the form)
+	if request.method =="POST":
+
+		#if username field is empty
+		if not request.form.get("username"):
+			return render_template("error.html", message="Enter your username!")
+
+		#if password field is empty
+		if not request.form.get("password"):
+			return render_template("error.html", message="Enter your password!")
+
+		#Query db for username
+		rows = db.execute("SELECT * FROM users WHERE username = :username",
+                {"username": username})
+        
+        result = rows.fetchone()
+
+        #Ensure username exists and password is same
+        if not result or not result[2]== request.form.get("password"):
+        	return render_template("error.html", message="Wrong username or password")
+
+        #allot the user a session
+        session.["user_id"] = result[0]
+        session.["user_name"] = result[1]
+
+        #redirect to homepage
+        return redirect("/")
+
+    #if the method is GET(the user didn't submit the login form)
+	else:
+		return render_template("login.html")
+
+#logout page
+@app.route("/logout")
+def logout():
+	session.clear()
+
+	#redirect user to the login page
+	return redirect("/")
+
+#registration page
+@app.route("/registration", methods=["GET", "POST"])
 def registration():
+
+	session.clear()
+
+	#if the user submits the form(via POST)
 	if request.method == "POST":
 
 		#Ensure username was submitted
@@ -55,9 +115,11 @@ def registration():
 		#commit changes to databse
 		db.commit()
 
-	return render_template("registration.html")
+		flash('Account created', 'info')
 
+		#redirect to the login page
+		return redirect("/login")
 
-@app.route("/login")
-def login():
-	return render_template("login.html")
+	#if the user reached the route via GET
+	else:
+		return render_template("registration.html")
