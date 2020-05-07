@@ -1,6 +1,6 @@
-import os
+import os, json
 
-from flask import Flask, session, request, render_template, redirect
+from flask import Flask, session, request, render_template, redirect, flash
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -23,7 +23,6 @@ db = scoped_session(sessionmaker(bind=engine))
 
 
 @app.route("/")
-@login_required
 
 #homepage
 def index():
@@ -48,23 +47,17 @@ def login():
 			return render_template("error.html", message="Enter your password!")
 
 		#Query db for username
-		rows = db.execute("SELECT * FROM users WHERE username = :username",
-                {"username": username})
-        
-        result = rows.fetchone()
+		rows = db.execute("SELECT * FROM users WHERE username = :username", {"username": username})
+		result = rows.fetchone()
 
-        #Ensure username exists and password is same
-        if not result or not result[2]== request.form.get("password"):
-        	return render_template("error.html", message="Wrong username or password")
+		if not result or not result[2] == request.form.get("password"):
+			return render_template("error.html", message="Wrong")
+		
+		session["user_id"] = result[0]
+		session["user_name"] = result[1]
 
-        #allot the user a session
-        session.["user_id"] = result[0]
-        session.["user_name"] = result[1]
+		return render_template("registration.html")
 
-        #redirect to homepage
-        return redirect("/")
-
-    #if the method is GET(the user didn't submit the login form)
 	else:
 		return render_template("login.html")
 
@@ -118,7 +111,7 @@ def registration():
 		flash('Account created', 'info')
 
 		#redirect to the login page
-		return redirect("/login")
+		return render_template("login.html")
 
 	#if the user reached the route via GET
 	else:
