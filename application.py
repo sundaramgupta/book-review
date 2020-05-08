@@ -23,10 +23,8 @@ db = scoped_session(sessionmaker(bind=engine))
 
 
 @app.route("/")
-
-#homepage
 def index():
-	return render_template("index.html")
+	return render_template("registration.html")
 
 #login page
 @app.route("/login", methods=["GET", "POST"])
@@ -50,13 +48,15 @@ def login():
 		rows = db.execute("SELECT * FROM users WHERE username = :username", {"username": username})
 		result = rows.fetchone()
 
-		if not result or not result[2] == request.form.get("password"):
-			return render_template("error.html", message="Wrong")
-		
-		session["user_id"] = result[0]
-		session["user_name"] = result[1]
+		if result:
+			if result.username == request.form.get("username") and result.password == request.form.get("password"):
+				session["username"] == request.form.get("username")
+				return redirect("url for(index)")
+			else:
 
-		return render_template("registration.html")
+				return render_template("error.html", message="Wrong password")
+
+		return render_template("index.html")
 
 	else:
 		return render_template("login.html")
@@ -77,10 +77,14 @@ def registration():
 
 	#if the user submits the form(via POST)
 	if request.method == "POST":
+		u = request.form.get("username")
+		p = request.form.get("password")
 
 		#Ensure username was submitted
+
 		if not request.form.get("username"):
-			return render_template("error.html",message="oops! your forgot to provide a username")
+
+			return render_template("error.html", message=u)
 
 		#Query databse for username
 		userCheck = db.execute("SELECT * from users WHERE username=:username",{"username":request.form.get("username")})

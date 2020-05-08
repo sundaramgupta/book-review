@@ -3,7 +3,7 @@
 {% block body %}
     <div class="container">
         <div class="form">
-            <form>
+            <form action = "{{ url_for('registration')}}", method="post">
               <div class="form-group">
                 <label for="exampleInputEmail1">Username</label>
                 <input type="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter username" autofocus>
@@ -16,6 +16,11 @@
               <div class="form-group">
                 <label for="exampleInputPassword1">Confirm Password</label>
                 <input type="confirm" class="form-control" id="exampleInputPassword1" placeholder="Confirm Password">
+              </div>
+
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Check me out</label>
               </div>
               <button type="submit" class="btn btn-primary">Register</button>
             </form>
