@@ -87,11 +87,10 @@ def registration():
 			return render_template("error.html", message=u)
 
 		#Query databse for username
-		userCheck = db.execute("SELECT * from users WHERE username=:username",{"username":request.form.get("username")})
+		userCheck = db.execute("SELECT username from users").fetchall()
 
 		#check if username already exists
-		if userCheck is not None:
-			return render_template("error.html", message="oops! username already exists")
+
 
 		#check if password is provided
 		if not request.form.get("password"):
