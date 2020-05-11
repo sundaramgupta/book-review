@@ -31,32 +31,31 @@ def index():
 def login():
 
 	session.clear()
-	username = request.form.get("username")
 
 	#if the method is post (by submitting the form)
 	if request.method =="POST":
+		lu = request.form.get("login-username")
+		lp = request.form.get("login-password")
 
 		#if username field is empty
-		if not request.form.get("username"):
+		if not lu:
 			return render_template("error.html", message="Enter your username!")
 
 		#if password field is empty
-		if not request.form.get("password"):
+		if not lp:
 			return render_template("error.html", message="Enter your password!")
 
 		#Query db for username
-		rows = db.execute("SELECT * FROM users WHERE username = :username", {"username": username})
+		rows = db.execute("SELECT * FROM users WHERE username = :a", {"a": lu})
 		result = rows.fetchone()
 
 		if result:
-			if result.username == request.form.get("username") and result.password == request.form.get("password"):
-				session["username"] == request.form.get("username")
-				return redirect("url for(index)")
-			else:
+			if result.username == lu and result.password == lp:
+				session["username"] = lu
+				return render_template("review.html")
 
-				return render_template("error.html", message="Wrong password")
-
-		return render_template("index.html")
+		return render_template("error.html", message="Wrong username/password")
+		
 
 	else:
 		return render_template("login.html")
@@ -82,18 +81,19 @@ def registration():
 
 		#Ensure username was submitted
 
-		if not request.form.get("username"):
-
-			return render_template("error.html", message=u)
+		if not u:
+			return render_template("error.html", message="please enter a valid username")
 
 		#Query databse for username
 		userCheck = db.execute("SELECT username from users").fetchall()
 
 		#check if username already exists
-
+		for i in range(len(userCheck)):
+			if userCheck[i]["username"] == u:
+				return render_template("error.html", message="username already exists!")
 
 		#check if password is provided
-		if not request.form.get("password"):
+		if not p:
 			return render_template("error.html", message="You MUST provide password! Duh!")
 
 		#ensure confirmation was submitted
@@ -111,7 +111,7 @@ def registration():
 		#commit changes to databse
 		db.commit()
 
-		flash('Account created', 'info')
+		flash("aCCOUNT created")
 
 		#redirect to the login page
 		return render_template("login.html")
