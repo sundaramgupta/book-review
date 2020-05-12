@@ -120,20 +120,22 @@ def registration():
 	else:
 		return render_template("registration.html")
 
-@app.route("/search", methods=["GET"])
+@app.route("/search", methods=["GET","POST"])
 def search():
-	sb = request.args.get("book")
-	if not sb:
+	
+	sb = request.args.get("text")
+	if sb=="":
 		return render_template("error.html", message="Please provide the name of the book!")
 
 	#to use 'LIKE' keyword
-	query = "%" + sb + "%"
+	query = ("%" + sb + "%").title()
+	
 
 	#capitilize all the letters
-	query = query.title()
+	
 
 	#select all the books that has similar name as the inputted one
-	rows = db.execute("SELECT isbn, title, author, year FROM books WHERE isbn LIKE query or title LIKE query or author LIKE query", {"query":query})
+	rows = db.execute("SELECT isbn, title, author, year FROM books WHERE isbn LIKE query or title LIKE query or author LIKE query")
 
 	#check if the book exist
 	if rows.rowcount() == 0:
@@ -142,4 +144,5 @@ def search():
 	#fetch all the results
 	books = rows.fetchall()
 	return render_template("review.html", books=books)
+
 
