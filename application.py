@@ -52,7 +52,7 @@ def login():
 		if result:
 			if result.username == lu and result.password == lp:
 				session["username"] = lu
-				return render_template("review.html")
+				return render_template("search.html")
 
 		return render_template("error.html", message="Wrong username/password")
 		
@@ -119,3 +119,27 @@ def registration():
 	#if the user reached the route via GET
 	else:
 		return render_template("registration.html")
+
+@app.route("/search", methods=["GET"])
+def search():
+	sb = request.args.get("book")
+	if not sb:
+		return render_template("error.html", message="Please provide the name of the book!")
+
+	#to use 'LIKE' keyword
+	query = "%" + sb + "%"
+
+	#capitilize all the letters
+	query = query.title()
+
+	#select all the books that has similar name as the inputted one
+	rows = db.execute("SELECT isbn, title, author, year FROM books WHERE isbn LIKE query or title LIKE query or author LIKE query", {"query":query})
+
+	#check if the book exist
+	if rows.rowcount() == 0:
+		return render_template("error.html", message="No book exist!")
+
+	#fetch all the results
+	books = rows.fetchall()
+	return render_template("review.html", books=books)
+
