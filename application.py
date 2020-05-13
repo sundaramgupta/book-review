@@ -138,7 +138,7 @@ def search():
 
 	#fetch all the results
 	books = rows.fetchall()
-	return render_template("search.html", books=books)
+	return render_template("search.html", books=books,sb=sb)
 
 
 
