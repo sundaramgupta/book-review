@@ -7,16 +7,17 @@
   <form class="form-inline" action= "{{url_for('search')}}" method="get">
     <input class="form-control mr-sm-2" name="text" type="search" placeholder="Search" aria-label="Search" autofocus>
     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    <div class="display">
-    	{% if books %}
-    		<h3>Search results for "{{sb}}": </h3>
-
-    	{% endif %}
   </form>
 </nav>
 
 
 <div class="dropdown-divider"></div>
+
+<div class="display">
+{% if books %}
+	<h3>Results for your search "{{sb}}" </h3>
+{% endif %}
+</div>
 
 <div class="container results-container">
     

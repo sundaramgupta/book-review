@@ -61,9 +61,16 @@ form{
 	flex-wrap: wrap;
 	justify-content: space-around;
 	margin-left: 200px;
-	background-color: #AEB6BF;
 	padding:20px;
 }
 .card-body{
 	text-align: center; 
+}
+.display{
+	justify-content: center;
+	margin-left: 600px;
+	padding: 30px;
+}
+.card-footer{
+	text-align: center;
 }
