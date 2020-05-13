@@ -54,3 +54,16 @@ form{
 	padding-bottom: 50px;
 	padding-right: 60px;
 }
+
+.results-container{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	margin-left: 200px;
+	background-color: #AEB6BF;
+	padding:20px;
+}
+.card-body{
+	text-align: center; 
+}

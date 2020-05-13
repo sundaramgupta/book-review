@@ -130,19 +130,16 @@ def search():
 	#to use 'LIKE' keyword
 	query = ("%" + sb + "%").title()
 	
-
-	#capitilize all the letters
-	
-
 	#select all the books that has similar name as the inputted one
-	rows = db.execute("SELECT isbn, title, author, year FROM books WHERE isbn LIKE query or title LIKE query or author LIKE query")
-
+	rows = db.execute("SELECT isbn, title, author, year FROM books WHERE isbn LIKE :query OR title LIKE :query OR author LIKE :query LIMIT 15",{"query": query})
 	#check if the book exist
-	if rows.rowcount() == 0:
+	if rows.rowcount==0:
 		return render_template("error.html", message="No book exist!")
 
 	#fetch all the results
 	books = rows.fetchall()
-	return render_template("review.html", books=books)
+	return render_template("search.html", books=books)
+
+
 
 
