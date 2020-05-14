@@ -108,10 +108,11 @@ def registration():
 		db.execute("INSERT into users (username, password) values (:username, :password)",
 			{"username":request.form.get("username"), "password":request.form.get("password")})
 
+		session["username"] = u
 		#commit changes to databse
 		db.commit()
 
-		flash("aCCOUNT created")
+		
 
 		#redirect to the login page
 		return render_template("login.html")
@@ -138,7 +139,26 @@ def search():
 
 	#fetch all the results
 	books = rows.fetchall()
-	return render_template("search.html", books=books,sb=sb)
+	return render_template("search.html", books=books)
+
+@app.route("/book/<isbn>", methods=["GET", "POST"])
+def book(isbn):
+
+	current_user = session.get("u")
+
+	#fetch data from the review form
+	comment = request.form.get("comment")
+	rating = request.form.get("rating")
+
+	#
+	rows = db.execute("SELECT * from books WHERE isbn=:isbn", {"isbn" : isbn})
+	isbn = rows.fetchone()
+	isbn = isbn[0]
+
+	rows_rev = db.execute("SELECT * from reviews WHERE isbn=:isbn AND username=:username", {"isbn":isbn, "username":current_user})
+
+
+	return render_template("error.html", message=rows_rev)
 
 
 
