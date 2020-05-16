@@ -9,30 +9,4 @@
     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
   </form>
 </nav>
-
-
-<div class="dropdown-divider"></div>
-
-<div class="display">
-{% if books %}
-	<h3>Results for your search "{{sb}}" </h3>
-{% endif %}
-</div>
-
-<div class="container results-container">
-    
-    {% for book in books %}
-        <div class="card border-primary mb-3" style="width: 12rem">
-            <div class="card-body">
-                <h4 class="card-title">{{book['title']}}</h4>
-                <h6 class="card-text">{{book['author']}}</h6>
-                <h6 class="card-text">{{book['year']}}</h6>
-                <h6 class="card-text">{{book['isbn']}}</h6>
-            </div>
-            <div class="card-footer">
-                <a href="/book/{{book['isbn']}}" class="card-link">Go to book page</a>
-            </div>
-       </div>
-    {% endfor %}
-
 {% endblock %}

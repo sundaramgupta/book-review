@@ -1,4 +1,4 @@
-import os, json
+import os, json, requests
 
 from flask import Flask, session, request, render_template, redirect, flash
 from flask_session import Session
@@ -26,6 +26,10 @@ db = scoped_session(sessionmaker(bind=engine))
 def index():
 	return render_template("registration.html")
 
+@app.route("/temp")
+def temp():
+	return render_template("search.html")
+
 #login page
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -52,7 +56,7 @@ def login():
 		if result:
 			if result.username == lu and result.password == lp:
 				session["username"] = lu
-				return render_template("search.html")
+				return redirect("temp")
 
 		return render_template("error.html", message="Wrong username/password")
 		
@@ -121,44 +125,67 @@ def registration():
 	else:
 		return render_template("registration.html")
 
-@app.route("/search", methods=["GET","POST"])
+
+
+@app.route("/search", methods=["GET"])
 def search():
-	
-	sb = request.args.get("text")
-	if sb=="":
-		return render_template("error.html", message="Please provide the name of the book!")
+	if request.method == "GET":
+		sb = request.args.get("text")
+		if not sb:
+			return render_template("error.html", message="Please provide the name of the book!")
 
-	#to use 'LIKE' keyword
-	query = ("%" + sb + "%").title()
-	
-	#select all the books that has similar name as the inputted one
-	rows = db.execute("SELECT isbn, title, author, year FROM books WHERE isbn LIKE :query OR title LIKE :query OR author LIKE :query LIMIT 15",{"query": query})
-	#check if the book exist
-	if rows.rowcount==0:
-		return render_template("error.html", message="No book exist!")
+		#to use 'LIKE' keyword
+		query = ("%" + sb + "%").title()
+		
+		#select all the books that has similar name as the inputted one
+		rows = db.execute("SELECT isbn, title, author, year FROM books WHERE isbn LIKE :query OR title LIKE :query OR author LIKE :query LIMIT 15",{"query": query})
+		#check if the book exist
+		if rows.rowcount==0:
+			return render_template("error.html", message="No book exist!")
 
-	#fetch all the results
-	books = rows.fetchall()
-	return render_template("search.html", books=books)
+		#fetch all the results
+		books = rows.fetchall()
+		return render_template("results.html", books=books,sb=sb)
 
 @app.route("/book/<isbn>", methods=["GET", "POST"])
 def book(isbn):
 
-	current_user = session.get("u")
+	username = session.get("u")
+	session["review"]=[]
 
 	#fetch data from the review form
-	comment = request.form.get("comment")
-	rating = request.form.get("rating")
-
-	#
-	rows = db.execute("SELECT * from books WHERE isbn=:isbn", {"isbn" : isbn})
-	isbn = rows.fetchone()
-	isbn = isbn[0]
-
-	rows_rev = db.execute("SELECT * from reviews WHERE isbn=:isbn AND username=:username", {"isbn":isbn, "username":current_user})
 
 
-	return render_template("error.html", message=rows_rev)
+
+	rows_rev = db.execute("SELECT * from reviews WHERE isbn=:isbn AND username=:username", {"isbn":isbn, "username":username})
+	if rows_rev.rowcount is None and request.method == "POST":
+
+
+		review = request.form.get("comment")
+		rating = request.form.get("rating")
+
+		db.execute("INSERT into reviews (isbn,review, rating, username) Values (:isbn, :review, :rating,:username)",{"isbn": isbn, "review": review, "rating":rating, "username":username})
+		db.commit()
+	if rows_rev.rowcount and request.method == "POST":
+	 	return render_template("error.html", message="sorry you cannot add another review")
+
+
+	#goodreads
+
+	key = os.getenv("GOODREADS_KEY")
+	query = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key":key, "isbns": isbn})
+
+	response = query.json()
+	arresponse = response['books'][0] ['ar']
+	count = response['books'][0]['count']
+
+	reviews = db.execute("SELECT * from books WHERE isbn=:isbn", {"isbn" : isbn}).fetchall()
+	for y in reviews:
+		session['reviews'].append(y)
+	data = db.execute("SELECT * from books WHERE isbn=:isbn", {"isbn" : isbn}).fetchone()
+	return render_template("book.html",data=data,reviews=session['reviews'],ar=ar,count=count,username=username,warning=warning)
+
+
 
 
 

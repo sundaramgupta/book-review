@@ -1,7 +1,19 @@
 {% extends "layout.html" %} 
 
 {% block body %}
+<nav class="navbar navbar-light bg-light justify-content-between">
+  <a class="navbar-brand">Search for your favourite book here!</a>
+
+  <form class="form-inline" action= "{{url_for('search')}}" method="get">
+    <input class="form-control mr-sm-2" name="text" type="search" placeholder="Search" aria-label="Search" autofocus>
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  </form>
+</nav>
+
     <div class="dropdown-divider"></div>
+    {% if books %}
+        <h3>You searched for "{{sb}}"</h3>
+    {% endif %}
 
     <div class="container results-container">
         
