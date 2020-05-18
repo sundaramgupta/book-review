@@ -1,0 +1,17 @@
+{% extends "layout.html" %} 
+
+{% block body %}
+<div class='container bg-light row no-gutters'>
+    
+    {% for book in books %}
+        <h1 class='container bg-dark text-white text-center my-2'> {{book['title']}} </h1>
+            <div class="card-body info">
+		        <h6 class="card-text">Author: {{book['author']}}</h6>
+		        <h6 class="card-text">Year: {{book['year']}}</h6>
+				<h6 class="card-text">ISBN: {{book['isbn']}}</h6>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

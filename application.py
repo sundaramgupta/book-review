@@ -149,8 +149,12 @@ def search():
 
 @app.route("/book/<isbn>", methods=["GET", "POST"])
 def book(isbn):
+	rows = db.execute("SELECT isbn, title, author, year FROM books WHERE isbn LIKE :isbn",{"isbn": isbn})
+	books = rows.fetchall()
+	return render_template("info.html",books=books)
 
-	username = session.get("u")
+
+	"""
 	session["review"]=[]
 
 	#fetch data from the review form
@@ -184,6 +188,8 @@ def book(isbn):
 		session['reviews'].append(y)
 	data = db.execute("SELECT * from books WHERE isbn=:isbn", {"isbn" : isbn}).fetchone()
 	return render_template("book.html",data=data,reviews=session['reviews'],ar=ar,count=count,username=username,warning=warning)
+
+	"""
 
 
 
