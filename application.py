@@ -151,7 +151,16 @@ def search():
 def book(isbn):
 	rows = db.execute("SELECT isbn, title, author, year FROM books WHERE isbn LIKE :isbn",{"isbn": isbn})
 	books = rows.fetchall()
-	return render_template("info.html",books=books)
+
+	
+
+
+	res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "XjytnMTBuDsGMM2lWu33w", "isbns": isbn})
+	res = res.json()
+	avg_rating= res['books'][0]['average_rating']
+	rate_count = res['books'][0]['work_ratings_count']
+	return render_template("info.html", avg_rating=avg_rating, rate_count=rate_count, books=books)
+	
 
 
 	"""
