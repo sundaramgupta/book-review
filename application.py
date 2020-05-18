@@ -159,7 +159,26 @@ def book(isbn):
 	res = res.json()
 	avg_rating= res['books'][0]['average_rating']
 	rate_count = res['books'][0]['work_ratings_count']
-	return render_template("info.html", avg_rating=avg_rating, rate_count=rate_count, books=books)
+
+	#post reviews
+	username = session['username']
+
+	rows_rev = db.execute("SELECT * from reviews WHERE isbn=:isbn AND username=:username", {"isbn":isbn, "username":username}).fetchall()
+	if not rows_rev:
+
+		review = request.form.get("comment")
+		rating = request.form.get("rating")
+
+		db.execute("INSERT into reviews (isbn,review, rating, username) Values (:isbn, :review, :rating,:username)",{"isbn": isbn, "review": review, "rating":rating, "username":username})
+		
+		db.commit()
+		return render_template("info.html", avg_rating=avg_rating, rate_count=rate_count, books=books, rating=rating,review=review)
+		
+		
+
+	else:
+		return render_template("error.html", message="you have already submitted a review")
+		
 	
 
 
@@ -170,15 +189,12 @@ def book(isbn):
 
 
 
-	rows_rev = db.execute("SELECT * from reviews WHERE isbn=:isbn AND username=:username", {"isbn":isbn, "username":username})
-	if rows_rev.rowcount is None and request.method == "POST":
 
 
-		review = request.form.get("comment")
-		rating = request.form.get("rating")
 
-		db.execute("INSERT into reviews (isbn,review, rating, username) Values (:isbn, :review, :rating,:username)",{"isbn": isbn, "review": review, "rating":rating, "username":username})
-		db.commit()
+		
+
+		
 	if rows_rev.rowcount and request.method == "POST":
 	 	return render_template("error.html", message="sorry you cannot add another review")
 
