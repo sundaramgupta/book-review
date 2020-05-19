@@ -64,7 +64,7 @@ form{
 	padding:20px;
 }
 .card-body{
-	text-align: center; 
+	float: left;
 }
 h3{
 	justify-content: center;
@@ -78,5 +78,42 @@ h3{
 	margin-left: 190px;
 }
 .cover{
+	text-align: center;
 	padding-bottom: 20px;
+	float: left;
+	padding-left: 80px;
+}
+.goodreads{
+	padding-left: 600px;
+	text-align: center;
+	padding-bottom: 20px; 
+}
+.goodreads img{
+	padding-bottom: 20px;
+}
+.cover img{
+	padding-bottom: 20px;
+}
+.form-border{
+	justify-content: center;
+
+}
+.container bg-light{
+	justify-content: center;
+	text-align: center;
+}
+.form-border {
+    border-color: #ECDB88;
+    border-style: solid;
+    border-radius: 1rem;
+    padding: 0.5rem;
+}
+.btn-success{
+	margin-left: 2px;
+}
+.input-group-text{
+	margin-left: 2px;
+}
+.form-group{
+	margin-left: 2px;
 }

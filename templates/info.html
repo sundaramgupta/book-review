@@ -2,18 +2,28 @@
 
 {% block body %}
 <div class='container bg-light row no-gutters'>
+    <div class='bg-light container'>
+        <div class='float-right'>{{username}}  <a href="{{url_for('logout')}}">Log out</a></div>
+    </div>
 
 
-        <h1 class='container bg-dark text-white text-center my-2'> {{data.author}} </h1>
+        <h1 class='container bg-dark text-white text-center my-2'> {{data.title}} </h1>
         <div class="card-body info">
         	<div class="cover">
-        		<img src="http://covers.openlibrary.org/b/isbn/{{data.isbn}}-M.jpg" width="130px">    
+        		<img src="http://covers.openlibrary.org/b/isbn/{{data.isbn}}-M.jpg" width="130px">
+
+                <h5 class="card-text"><strong>Author:</strong> {{data.author}}</h5>
+                <h5 class="card-text"><strong>Year:</strong> {{data.year}}</h5>
+                <h5 class="card-text"><strong>ISBN:</strong> {{data.isbn}}</h5>    
 			</div>
-	        <h6 class="card-text">Author: {{data.author}}</h6>
-	        <h6 class="card-text">Year: {{data.year}}</h6>
-			<h6 class="card-text">ISBN: {{data.isbn}}</h6>
-			<h6 class="card-text"> GOODREADS {{avg_rating}}</h6> 
-			<h6 class="card-text"> GOODREADS rate count {{rate_count}}</h6>
+
+            <div class="goodreads">
+                <img src="../static/goodreads.png" width="200px height="150px>
+                <h5 class="card-text"> <strong>Average rate:</strong> {{avg_rating}}</h5> 
+                <h5 class="card-text"> <strong>No. of ratings:</strong> {{rate_count}}</h5>
+                <h5 class="card-text"> <a href=https://www.goodreads.com/search?q={{data.isbn}}> Goodreads Page </a> </h5>
+            </div> 
+            </div>
         </div>
 
 
