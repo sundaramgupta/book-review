@@ -127,3 +127,10 @@ h3{
 label{
 	margin:0;
 }
+.review{
+	justify-content: center;
+	margin: 0 200px 40px 200px;
+	padding: 20px;
+	background-color: #F8F9FA;
+	border-radius: 4px;
+}
