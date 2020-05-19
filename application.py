@@ -1,6 +1,6 @@
 import os, json, requests
 
-from flask import Flask, session, request, render_template, redirect, flash
+from flask import Flask, session, request, render_template, redirect, flash, jsonify
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -180,3 +180,11 @@ def book(isbn):
 	data = db.execute("SELECT * FROM books WHERE isbn = :isbn",{"isbn": isbn})
 	data = data.fetchone()
 	return render_template("info.html", data=data,avg_rating=avg_rating, rate_count=rate_count,reviews=session["reviews"],username=username)
+
+@app.route("/api/<isbn>",methods=["GET"])
+def api(isbn):
+	data = db.execute("SELECT * from books WHERE isbn=:isbn",{"isbn":isbn}).fetchone()
+	if not data:
+		return jsonify({"Error": "Invalid ISBN"}),422
+	result = dict(data.items())
+	return jsonify(result)
