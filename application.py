@@ -149,75 +149,31 @@ def search():
 
 @app.route("/book/<isbn>", methods=["GET", "POST"])
 def book(isbn):
-	rows = db.execute("SELECT isbn, title, author, year FROM books WHERE isbn LIKE :isbn",{"isbn": isbn})
-	books = rows.fetchall()
-
-	
-
-
-	res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "XjytnMTBuDsGMM2lWu33w", "isbns": isbn})
-	res = res.json()
-	avg_rating= res['books'][0]['average_rating']
-	rate_count = res['books'][0]['work_ratings_count']
-
-	#post reviews
 	username = session['username']
+	session["reviews"] = []
 
 	rows_rev = db.execute("SELECT * from reviews WHERE isbn=:isbn AND username=:username", {"isbn":isbn, "username":username}).fetchall()
-	if not rows_rev:
+	if not rows_rev and request.method == "POST":
 
 		review = request.form.get("comment")
 		rating = request.form.get("rating")
 
 		db.execute("INSERT into reviews (isbn,review, rating, username) Values (:isbn, :review, :rating,:username)",{"isbn": isbn, "review": review, "rating":rating, "username":username})
-		
 		db.commit()
-		return render_template("info.html", avg_rating=avg_rating, rate_count=rate_count, books=books, rating=rating,review=review)
-		
-		
 
-	else:
+	if rows_rev and request.method == "POST":
 		return render_template("error.html", message="you have already submitted a review")
-		
-	
 
+	res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "XjytnMTBuDsGMM2lWu33w", "isbns": isbn})
+	res = res.json()
+	avg_rating= res['books'][0]['average_rating']
+	rate_count = res['books'][0]['work_ratings_count']
+	reviews = db.execute("SELECT * from reviews WHERE isbn=:isbn", {"isbn" :isbn}).fetchall()
 
-	"""
-	session["review"]=[]
-
-	#fetch data from the review form
-
-
-
-
-
-
-		
-
-		
-	if rows_rev.rowcount and request.method == "POST":
-	 	return render_template("error.html", message="sorry you cannot add another review")
-
-
-	#goodreads
-
-	key = os.getenv("GOODREADS_KEY")
-	query = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key":key, "isbns": isbn})
-
-	response = query.json()
-	arresponse = response['books'][0] ['ar']
-	count = response['books'][0]['count']
-
-	reviews = db.execute("SELECT * from books WHERE isbn=:isbn", {"isbn" : isbn}).fetchall()
 	for y in reviews:
-		session['reviews'].append(y)
-	data = db.execute("SELECT * from books WHERE isbn=:isbn", {"isbn" : isbn}).fetchone()
-	return render_template("book.html",data=data,reviews=session['reviews'],ar=ar,count=count,username=username,warning=warning)
-
-	"""
+		session["reviews"].append(y)
 
 
-
-
-
-
+	data = db.execute("SELECT * FROM books WHERE isbn = :isbn",{"isbn": isbn})
+	data = data.fetchone()
+	return render_template("info.html", data=data,avg_rating=avg_rating, rate_count=rate_count,reviews=session["reviews"],username=username)

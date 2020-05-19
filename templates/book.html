@@ -3,19 +3,19 @@
 {% block body %}
 <div class='container bg-light row no-gutters'>
 
-
-        <h1 class='container bg-dark text-white text-center my-2'> {{data.author}} </h1>
+	{% for book in books %}
+        <h1 class='container bg-dark text-white text-center my-2'> {{book['title']}} </h1>
         <div class="card-body info">
         	<div class="cover">
-        		<img src="http://covers.openlibrary.org/b/isbn/{{data.isbn}}-M.jpg" width="130px">    
+        		<img src="http://covers.openlibrary.org/b/isbn/{{book['isbn']}}-M.jpg" width="130px">    
 			</div>
-	        <h6 class="card-text">Author: {{data.author}}</h6>
-	        <h6 class="card-text">Year: {{data.year}}</h6>
-			<h6 class="card-text">ISBN: {{data.isbn}}</h6>
+	        <h6 class="card-text">Author: {{book['author']}}</h6>
+	        <h6 class="card-text">Year: {{book['year']}}</h6>
+			<h6 class="card-text">ISBN: {{book['isbn']}}</h6>
 			<h6 class="card-text"> GOODREADS {{avg_rating}}</h6> 
 			<h6 class="card-text"> GOODREADS rate count {{rate_count}}</h6>
         </div>
-
+    {% endfor %}
 
 
 	<form method="POST" class="form-border">
@@ -43,18 +43,8 @@
             </div>
         </div>
     </form>
-    
-    {% if reviews != None %}
-	{% for x in reviews %}
-	<div class='container bg-light my-3 '>
-		<h6>Rating: {{x.rating}} of 5</h6>
-		<blockquote class="blockquote">
-		<p>{{x.review}}</p>
-		<footer class="blockquote-footer">{{x.username}}</footer>
-		</blockquote>
-	</div>
-{% endfor %}
-{% endif %}
+    <h4> {{rating}} </h4>
+    <h4> {{review}} </h4>
 
 </div>
 
