@@ -130,6 +130,9 @@ def registration():
 @app.route("/search", methods=["GET"])
 def search():
 	if request.method == "GET":
+		u = session["username"]
+		if not u:
+			return render_template("error.html", message="You need to login!")
 		sb = request.args.get("text")
 		if not sb:
 			return render_template("error.html", message="Please provide the name of the book!")

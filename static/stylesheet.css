@@ -62,9 +62,11 @@ form{
 	justify-content: space-around;
 	margin-left: 200px;
 	padding:20px;
+	background-color: 
 }
 .card-body{
 	float: left;
+	text-align: center;
 }
 h3{
 	justify-content: center;
@@ -135,4 +137,9 @@ h3{
 }
 .formgroup col-sm{
 	margin-left: 0
+}
+.error{
+	text-align: center;
+	justify-content: center;
+	padding: 200px;
 }
