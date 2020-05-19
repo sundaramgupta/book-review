@@ -109,12 +109,10 @@ h3{
     padding: 0.5rem;
 }
 .btn-success{
-	margin-left: 2px;
+	margin-left: 0;
+	width:100px;
 }
 .input-group-text{
-	margin-left: 2px;
-}
-.form-group{
 	margin-left: 2px;
 }
 .form-border{
@@ -123,8 +121,9 @@ h3{
 .input-group{
 	margin-bottom: 2px;
 	padding-top: 30px;
+	margin-right: 30px;
 }
-label{
+.text{
 	margin:0;
 }
 .review{
@@ -133,4 +132,7 @@ label{
 	padding: 20px;
 	background-color: #F8F9FA;
 	border-radius: 4px;
+}
+.formgroup col-sm{
+	margin-left: 0
 }
