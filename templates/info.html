@@ -14,13 +14,14 @@
 
                 <h5 class="card-text"><strong>Author:</strong> {{data.author}}</h5>
                 <h5 class="card-text"><strong>Year:</strong> {{data.year}}</h5>
-                <h5 class="card-text"><strong>ISBN:</strong> {{data.isbn}}</h5>    
+                <h5 class="card-text"><strong>ISBN:</strong> {{data.isbn}}</h5> 
+                <h5><a href='/api/{{data.isbn}}'>API</a></h5>   
 			</div>
 
             <div class="goodreads">
                 <img src="../static/goodreads.png" width="200px height="150px>
-                <h5 class="card-text"> <strong>Average rate:</strong> {{avg_rating}}</h5> 
-                <h5 class="card-text"> <strong>No. of ratings:</strong> {{rate_count}}</h5>
+                <h5 class="card-text"> <strong>Average rate:</strong> {{avg_rating}}*</h5> 
+                <h5 class="card-text"> <strong>No. of ratings:</strong> {{rate_count}}*</h5>
                 <h5 class="card-text"> <a href=https://www.goodreads.com/search?q={{data.isbn}}> Goodreads Page </a> </h5>
             </div> 
             </div>
@@ -65,7 +66,7 @@
 	</div>
 {% endfor %}
 {% endif %}
-<div class='bg-light text-center '><a href='/api/{{data.isbn}}'>API</a></div>
+    <div class="bg-light text-center"><strong>*Data keeps changing as per Goodreads API</strong></div>
 
 </div>
 
