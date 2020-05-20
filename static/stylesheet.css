@@ -61,9 +61,7 @@ form{
 	flex-direction: row;
 	flex-wrap: wrap;
 	justify-content: space-around;
-	margin-left: 200px;
-	padding:20px;
-	background-color:
+	margin: 0 15% 0 15%;
 }
 .card-body{
 	float: left;
