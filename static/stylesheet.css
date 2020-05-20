@@ -84,9 +84,7 @@ form{
 	padding-left: 80px;
 }
 .goodreads{
-	padding-left: 600px;
 	text-align: center;
-	padding-bottom: 20px; 
 }
 .goodreads img{
 	padding-bottom: 20px;
@@ -147,4 +145,9 @@ form{
 }
 .text-muted{
 	margin-right: 40px;
+}
+.wrap{
+	display: flex;
+	justify-content: center;
+
 }
