@@ -2,11 +2,14 @@
 
 {% block body %}
 <nav class="navbar navbar-light bg-light justify-content-between">
-  <a class="navbar-brand">Search for your favourite book here!</a>
+	<div class="small">
+		<a class="navbar-brand">Search for your favourite book here!</a>
+		<small id="bookHelp" class="form-text text-muted">Example: 0375508325, Cosmos or Carl Sagan</small>
+	</div>
 
-  <form class="form-inline" action= "{{url_for('search')}}" method="get">
-    <input class="form-control mr-sm-2" name="text" type="search" placeholder="Search" aria-label="Search" autofocus>
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-  </form>
+	<form class="form-inline" action= "{{url_for('search')}}" method="get">
+		<input class="form-control mr-sm-2" name="text" type="search" placeholder="Search" aria-label="Search" autofocus>
+		<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+	</form>
 </nav>
 {% endblock %}

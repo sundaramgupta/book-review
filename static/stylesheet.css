@@ -144,3 +144,10 @@ h3{
 	justify-content: center;
 	padding: 200px;
 }
+.small{
+	align-items: center;
+	text-align: center;
+}
+.text-muted{
+	margin-right: 40px;
+}
