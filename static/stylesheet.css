@@ -157,3 +157,6 @@ form{
 .users{
 	margin-top: 90px;
 }
+.alert a{
+	text-decoration: none;
+}
