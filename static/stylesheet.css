@@ -69,10 +69,9 @@ form{
 	float: left;
 	text-align: center;
 }
-h3{
+.alert{
 	justify-content: center;
-	margin-left: 600px;
-	padding: 30px;
+	text-align: center;
 }
 .card-footer{
 	text-align: center;

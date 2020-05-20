@@ -12,7 +12,10 @@
 
     <div class="dropdown-divider"></div>
     {% if books %}
-        <h3>You searched for "{{sb}}"</h3>
+
+        <div class="alert alert-primary" role="alert">
+            You searched for "{{sb}}"
+        </div>
     {% endif %}
 
     <div class="container results-container">
