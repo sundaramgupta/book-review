@@ -3,6 +3,7 @@
 {% block body %}
 <nav class="navbar navbar-light bg-light justify-content-between">
   <a class="navbar-brand">Search for your favourite book here!</a>
+  <small id="bookHelp" class="form-text text-muted">Example: 0375508325, Cosmos or Carl Sagan</small>
 
   <form class="form-inline" action= "{{url_for('search')}}" method="get">
     <input class="form-control mr-sm-2" name="text" type="search" placeholder="Search" aria-label="Search" autofocus>
