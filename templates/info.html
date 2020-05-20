@@ -28,11 +28,12 @@
                     <h5 class="card-text"> <strong>No. of ratings:</strong> {{rate_count}}*</h5>
                     <h5 class="card-text"> <a href=https://www.goodreads.com/search?q={{data.isbn}}> Goodreads Page </a> </h5>
                 </div> 
+                <div class="bg-light text-center astrisk">*Data keeps changing as per Goodreads API</div>
 
 
             </div>
         </div>
-
+        <h3><div class="alert alert-dark users" role="alert">Users reviews</div></h3>
 
 
 	<form method="POST" class="form-border">
@@ -72,7 +73,9 @@
 	</div>
 {% endfor %}
 {% endif %}
-    <div class="bg-light text-center"><strong>*Data keeps changing as per Goodreads API</strong></div>
+    <div class="alert alert-primary" role="alert">
+        <strong>Checkout the GitHub repo<a href="https://github.com/sundaramgupta/book-review" class="alert-link"> here</a>.</strong>
+    </div>
 
 </div>
 {% endblock %}
