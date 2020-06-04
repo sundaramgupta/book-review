@@ -98,11 +98,15 @@ def registration():
 
 		#check if password is provided
 		if not p:
-			return render_template("error.html", message="You MUST provide password! Duh!")
+			return render_template("error.html", message="You MUST provide password!")
+
+		#ensure password is six characters long
+		if len(p) < 6:
+			return render_template("error.html", message="Passwors MUST be six characters long")
 
 		#ensure confirmation was submitted
 		if not request.form.get("confirmation"):
-			return render_template("error.html", message="You MUST confirm the password! FOOl!")
+			return render_template("error.html", message="You MUST confirm the password!")
 
 		#ensure the provided passwords are same
 		if not request.form.get("password") == request.form.get("confirmation"):
